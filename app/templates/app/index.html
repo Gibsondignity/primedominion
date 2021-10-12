@@ -1,0 +1,117 @@
+{% extends '../base.html' %} 
+
+{% block title %}
+    <title>Prime Dominion</title>
+{% endblock title %}
+
+
+
+{% block content %}
+
+
+
+    <br><br><br><br>
+    <div class="container">
+        <form action = "#" method = "POST" class="form-group">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+                <select class="form-select" aria-label="Default select example" name="dropdown">
+                    <option selected>Supplier</option>
+                    <option value="Products">Products</option>
+                </select>
+            </div>
+            <div class="input-group mb-3">
+                <input class="form-control form-control-lg" name="search_data" type="text" placeholder="Search for Supplier" aria-label="default input example">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+
+        <div>
+
+            <table class="table">
+            {% if category == "Supplier" %}
+                {% for query in queryset %}
+                    <thead>
+                        <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Bank Details</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <th scope="row">{{query.id}}</th>
+                        <td>{{query.name}}</td>
+                        <td>{{query.telephone}}</td>
+                        <td>{{query.address}}</td>
+                        <td>{{query.email_address}}</td>
+                        <td>{{query.bank_details}}</td>
+                        </tr>
+                    </tbody>
+                {% endfor %}
+
+            {% elif category == "Product"%}
+
+                {% for query in queryset %}
+                    <thead>
+                        <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Supplier</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Invoice Amount</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <th scope="row">{{query.id}}</th>
+                        <td>{{query.supplier}}</td>
+                        <td>{{query.description}}</td>
+                        <td>{{query.quantity}}</td>
+                        <td>{{query.invoice_amount}}</td>
+                        </tr>
+                    </tbody>
+                {% endfor %}
+
+            {% endif %}
+            </table>
+
+        
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock content %}

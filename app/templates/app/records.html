@@ -1,0 +1,175 @@
+{% extends '../base.html' %} 
+
+{% block title %}
+    <title>Records</title>
+{% endblock title %}
+
+
+
+
+{% block internal_style %}
+
+    <style>
+        .container {
+            max-width: 960px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 20px;
+            text-align: center;
+            margin: 20px 0 20px;
+        }
+        h1 small {
+            display: block;
+            font-size: 15px;
+            padding-top: 8px;
+            color: gray;
+        }
+
+        .avatar-upload {
+            position: relative;
+            max-width: 205px;
+            margin: 30px auto;
+        }
+        .avatar-upload .avatar-edit {
+            position: absolute;
+            right: 12px;
+            z-index: 1;
+            top: 10px;
+        }
+        .avatar-upload .avatar-edit input {
+            display: none;
+        }
+        .avatar-upload .avatar-edit input + label {
+            display: inline-block;
+            width: 34px;
+            height: 34px;
+            margin-bottom: 0;
+            border-radius: 100%;
+            background: #FFFFFF;
+            border: 1px solid transparent;
+            box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+            cursor: pointer;
+            font-weight: normal;
+            transition: all .2s ease-in-out;
+        }
+        .avatar-upload .avatar-edit input + label:hover {
+            background: #f1f1f1;
+            border-color: #d6d6d6;
+        }
+        .avatar-upload .avatar-edit input + label:after {
+            content: "\f030";
+            font-family: 'FontAwesome';
+            color: #757575;
+            position: absolute;
+            top: 7px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            margin: auto;
+        }
+        .avatar-upload .avatar-preview {
+            width: 192px;
+            height: 192px;
+            position: relative;
+            border-radius: 100%;
+            border: 6px solid #F8F8F8;
+            box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+        }
+        .avatar-upload .avatar-preview > div {
+            width: 100%;
+            height: 100%;
+            border-radius: 100%;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+    </style>
+
+{% endblock internal_style %}
+
+{% block script %}
+    <script>
+        function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('#imagePreview').css('background-image', 'url('+e.target.result +')');
+            $('#imagePreview').hide();
+            $('#imagePreview').fadeIn(650);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+$("#{{ form.picture.id_for_label }}").change(function() {
+    readURL(this);
+});
+    </script>
+
+{% endblock script %}
+
+
+
+{% block content %}
+ 
+    <div class="dashboard-wrapper">
+        <div class="container-fluid dashboard-content">
+            <div class="row">
+                <div class="col-xl-12 col-lg-8 col-md-11 col-sm-12 col-12 mx-auto">
+                    <div class="card p-5 shadow">
+                    <div class="card-header">
+                        <h3 class="h2">Select The Category</h3>
+                    </div>
+                    <div class="row mt-5">
+                        <div class="">
+                            <div class="card shadow">
+                                <div class="card-header">
+                                    <p class="h5">Suppliers</p>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        Click to create a new ministry, edit or modify an existing ministry, view or list saved ministries in the system and delete existing ministries.
+                                        Members of a particular ministry can also be viewed, and modified.
+                                    </p>
+                                    <a href="{% url 'list_suppliers' %}" class="btn btn-success text-light shadow btn-sm">View List</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="card shadow">
+                                <div class="card-header">
+                                    <p class="h5">Products</p>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        Click to view the number of products on the system so far. This gives you a table specifying 
+                                    </p>
+                                    <a href="{% url 'list_products' %}" class="btn btn-success btn-sm shadow text-light">View List</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="card shadow">
+                                <div class="card-header">
+                                    <p class="h5">Transaction</p>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        Click to add new members, edit or modify an existing member, view or list saved members in the system and delete existing member.
+                                        Shepherds and Ministries of a particular member can also be accessed and modified from here.
+                                    </p>
+                                    <a href="{% url 'list_transactions' %}" class="btn btn-success text-light btn-sm shadow">View List</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+
+{% endblock content %}
+
