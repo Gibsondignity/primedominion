@@ -1,9 +1,10 @@
 from django.http import request, response, HttpResponse
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Supplier, Product
-from .forms import AddSupplierForm, AddProductForm
+from .models import Supplier, Product, Transaction
+from .forms import AddSupplierForm, AddProductForm, TransactionForm
 
 
 
@@ -14,8 +15,6 @@ def index(request):
     if request.method == "POST":
         category = request.POST.get('dropdown')
         search_data = request.POST.get('search_data')
-        print(category)
-        print(search_data)
 
         if category == "Supplier":
             if search_data != "":
@@ -25,13 +24,22 @@ def index(request):
     
             return render(request, 'app/index.html', {"queryset": queryset, "category": category})
 
-        if category == "Products":
+        elif category == "Products":
             if search_data != "":
-                queryset = product_queryset.filter(name__contains=search_data)
+                queryset = Product.objects.filter(Q(supplier__contains=search_data) | Q(description__contains=search_data))
+                
             else:
                 return HttpResponse('<p>Enter either supplier name or product name to search</p>')
     
-            return render(request, 'app/index.html', {"queryset": queryset, "category": category})
+            return render(request, 'app/search/product_search.html', {"queryset": queryset, "category": category})
+
+        else:
+            if search_data != "":
+                queryset = product_queryset.filter(transaction_id__contains=search_data)
+            else:
+                return HttpResponse('<p>Enter either supplier name or product name to search</p>')
+    
+            return render(request, 'app/search/transaction_search.html', {"queryset": queryset, "category": category})
 
     else:
         return render(request, 'app/index.html')
@@ -60,12 +68,10 @@ def new_supplier(request):
 
 
 def new_product(request):
-    all_suppiers = Supplier.objects.all()
-    print(all_suppiers)
+    
     form = AddProductForm(request.POST or None)
 
     if request.method == "POST":
-
         form = AddProductForm(request.POST or None)
         if form.is_valid():
             form.save()
@@ -75,9 +81,11 @@ def new_product(request):
             messages.error(request, "Failed to Add Supplier")
 
     else:
-        return render(request, 'app/add_product.html')
+        return render(request, 'app/add_product.html', )
 
-    return render(request, 'app/add_product.html', {"form": form, "all_suppiers":all_suppiers})
+    suppliers = Supplier.objects.all()
+    print(suppliers)
+    return render(request, 'app/add_product.html', {"form": form, "suppliers":suppliers})
  
 
 
@@ -104,9 +112,34 @@ def list_products(request):
     return render(request, 'app/list_products.html', {"products": products, "total_invoice": total_invoice})
 
 
+def transactions(request):
+
+    form = TransactionForm()
+
+    if request.method == "POST":
+        form = TransactionForm(request.POST)
+
+        if form.is_valid():
+            supplier = form.save(commit=False)
+            supplier.save()
+            messages.success(request, "New Transaction Added Successfully")
+            return redirect("new_supplier")
+        else:
+            messages.error(request, "Failed to add new transaction")
+            return redirect('index')
+
+
+    return render(request, 'app/transaction.html', {"form": form})
+
+
 def list_transactions(request):
 
-    return render(request, 'app/list_transaction.html')
+    transactions = Transaction.objects.all()
+    return render(request, 'app/list_transaction.html', {"transactions":transactions})
+
+
+
+
 
 
 

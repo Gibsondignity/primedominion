@@ -112,9 +112,9 @@ $("#{{ form.picture.id_for_label }}").change(function() {
 
 
 {% block content %}
-
-    <br><br><br><br>
     
+        <br><br><br><br>
+
     <div class="dashboard-wrapper">
         <div class="container-fluid dashboard-content">
             <div class="row">
@@ -142,7 +142,7 @@ $("#{{ form.picture.id_for_label }}").change(function() {
                         {% endfor %}
                     {% endif %}
                     <div class="card">
-                        <h5 class="card-header"><p class="h5">Add A New Product </p></h5>
+                        <h5 class="card-header"><p class="h5">Add A New Transaction </p></h5>
                         <div class="card-body">
                             <form enctype="multipart/form-data" action="{% url 'new_product' %}" method="post" class="mb-5">
                                 {% csrf_token %}
@@ -156,36 +156,37 @@ $("#{{ form.picture.id_for_label }}").change(function() {
                                     <select name="{{ form.supplier.name }}" id="{{ form.supplier.id_for_label }}" class="form-control" class="form-select">
                                         <option value="">----------- Select The Supplier --------------</option>
                                         {% for supplier in suppliers %}
-                                            <option value="{{ supplier.pk }}">{{ supplier.supplier }}</option> 
+                                            <option value="{{ supplier.pk }}">{{ supplier.name }}</option> 
                                         {% endfor %}
                                     </select>
                                 </div>
 
 
                                     <div class="col">
-                                        <label for="{{ form.contact.id_for_label }}">Description</label>
-                                        <textarea type="text" name="{{ form.description.name }}" id="{{ form.description.id_for_label }}" class="form-control"></textarea>
+                                        <label for="{{ form.transaction_id.id_for_label }}">Transaction ID</label>
+                                        <input type="text" name="{{ form.transaction_id.name }}" id="{{ form.transaction_id.id_for_label }}" class="form-control">
                                     </div>
+                               
+
+                                <div class="col">
+                                    <label for="{{ form.invoice_amount.id_for_label }}">Transaction ID</label>
+                                    <input type="text" name="{{ form.invoice_amount.name }}" id="{{ form.invoice_amount.id_for_label }}" class="form-control">
+                        
                                 </div>
 
-                                <div class="form-row">
-                                    <div class="col">
-                                        <label for="{{ form.quantity.id_for_label }}">Quantity</label>
-                                        <input type="text" name="{{ form.quantity.name }}" id="{{ form.quntity.id_for_label }}" class="form-control">
-                                    </div>
+                            
+                                
+                                <div class="col">
+                                    <label for="{{ form.description.id_for_label }}">Description</label>
+                                    <textarea type="text" id="{{ form.description.id_for_label }}" class="form-control" name="{{ form.description.name }}"></textarea>
                                 </div>
-                                <div class="form-row mt-3">
-                                    <div class="col">
-                                        <label for="{{ form.invoice_amount.id_for_label }}">Invoice Amount</label>
-                                        <input type="text" id="{{ form.invoice_amount.id_for_label }}" class="form-control" name="{{ form.invoice_amount.name }}">
-                                    </div>
                                     
-                                </div>
+                                
                                 <br>
                                 <hr>
                                 
 
-                                <button type="submit" class="btn btn-success mt-5 text-light btn-sm shadow">Add Product</button>
+                                <button type="submit" class="btn btn-success mt-5 text-light btn-sm shadow">Add Transaction</button>
                             </form>
                         </div>
                     </div>

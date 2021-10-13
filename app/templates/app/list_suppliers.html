@@ -113,6 +113,8 @@ $("#{{ form.picture.id_for_label }}").change(function() {
 
 {% block content %}
     
+    <br><br><br><br>
+    
     <div class="dashboard-wrapper">
         <div class="container-fluid dashboard-content">
 
@@ -163,9 +165,9 @@ $("#{{ form.picture.id_for_label }}").change(function() {
                                 <tr>
                                     <th scope="row">{{supplier.id}}</th>
                                     <td>{{supplier.name}}</td>
-                                    <td>{{supplier.telephone}}</td>
+                                    <td>{{supplier.contact}}</td>
                                     <td>{{supplier.address}}</td>
-                                    <td>{{supplier.email_address}}</td>
+                                    <td>{{supplier.email}}</td>
                                     <td>{{supplier.bank_details}}</td>
                                 </tr>
                             {% endfor %}

@@ -29,36 +29,31 @@
 
         <div>
 
-            <table class="table">
-            {% if category == "Supplier" %}
+                                    
                 
                     <thead>
                         <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Address</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Bank Details</th>
-
+                        <th scope="col">Supplier</th>
+                        <th scope="col">Transaction ID</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Invoice Amount</th>
 
                         </tr>
                     </thead>
                 {% for query in queryset %}
-
                     <tbody>
                         <tr>
-                        <th scope="row">{{query.id}}</th>
-                        <td>{{query.name}}</td>
-                        <td>{{query.contact}}</td>
-                        <td>{{query.address}}</td>
-                        <td>{{query.email}}</td>
-                        <td>{{query.bank_details}}</td>
+                        <th scope="row">{{product.id}}</th>
+                            <td>{{transaction.supplier}}</td>
+                            <td>{{transaction.transaction_id}}</td>
+                            <td>{{transaction.description}}</td>
+                            <td>{{transaction.invoice_amount}}</td>
                         </tr>
                     </tbody>
                 {% endfor %}
 
-            {% endif %}
+
             </table>
 
         

@@ -5,9 +5,9 @@ from django.db.models.base import Model
 # Create your models here.
 class Supplier(models.Model):
     name = models.CharField(max_length=200, help_text='Enter your full name')
-    telephone = models.PositiveIntegerField(null=True, blank=True)
+    contact = models.PositiveIntegerField(null=True, blank=True)
     address = models.CharField(max_length=255)
-    email_address = models.EmailField(max_length = 150, help_text="")
+    email = models.EmailField(max_length = 150, help_text="")
     bank_details = models.CharField(max_length=200)
 
     def __str__(self):
@@ -29,12 +29,12 @@ class Product(models.Model):
 class Transaction(models.Model):
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
     transaction_id = models.CharField(max_length=40)
-    amount = models.FloatField()
+    invoice_amount = models.FloatField()
     description = models.TextField()
 
 
     def __str__(self):
-        return self.transaction_id
+        return f'{self.transaction_id}'
 
 
 class Payment(models.Model):
