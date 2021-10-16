@@ -23,45 +23,30 @@
         overflow: scroll;
     }
 
+    
+
+
     </style>
     {% endblock internal_style %}
 
   </head>
   <body>
-    
-        <nav class="navbar navbar-expand-lg navbar-light bg-primary">
-        <div class="container-fluid">
+  {%  include 'app/navbar.html' %}
 
-            <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav bg-white">
-                <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Home</a>
-                </li>
-                <li class="nav-item ">
-                <a class="nav-link b" href="{% url 'new_supplier' %}">Supplier</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="{% url 'new_product' %}">Products</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="{% url 'transactions' %}">Transactions</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="{% url 'records' %}">Records</a>
-                </li>
-            </ul>
-               
-            </div>
-        </div>
-        </nav>
 
-    
-        {% block content %}{% endblock content %}
+      
+      {% block content %}{% endblock content %}
+
+
+
+
+        
     
     
     {% block script %}
 
-    <script></script>
+    <script>
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     {% endblock script %}

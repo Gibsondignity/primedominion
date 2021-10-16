@@ -28,88 +28,23 @@
             color: gray;
         }
 
-        .avatar-upload {
-            position: relative;
-            max-width: 205px;
-            margin: 30px auto;
-        }
-        .avatar-upload .avatar-edit {
-            position: absolute;
-            right: 12px;
-            z-index: 1;
-            top: 10px;
-        }
-        .avatar-upload .avatar-edit input {
-            display: none;
-        }
-        .avatar-upload .avatar-edit input + label {
-            display: inline-block;
-            width: 34px;
-            height: 34px;
-            margin-bottom: 0;
-            border-radius: 100%;
-            background: #FFFFFF;
-            border: 1px solid transparent;
-            box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
-            cursor: pointer;
-            font-weight: normal;
-            transition: all .2s ease-in-out;
-        }
-        .avatar-upload .avatar-edit input + label:hover {
-            background: #f1f1f1;
-            border-color: #d6d6d6;
-        }
-        .avatar-upload .avatar-edit input + label:after {
-            content: "\f030";
-            font-family: 'FontAwesome';
-            color: #757575;
-            position: absolute;
-            top: 7px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            margin: auto;
-        }
-        .avatar-upload .avatar-preview {
-            width: 192px;
-            height: 192px;
-            position: relative;
-            border-radius: 100%;
-            border: 6px solid #F8F8F8;
-            box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
-        }
-        .avatar-upload .avatar-preview > div {
-            width: 100%;
-            height: 100%;
-            border-radius: 100%;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
+        
+        
+        
     </style>
 
 {% endblock internal_style %}
 
 {% block script %}
     <script>
-        function readURL(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            $('#imagePreview').css('background-image', 'url('+e.target.result +')');
-            $('#imagePreview').hide();
-            $('#imagePreview').fadeIn(650);
-        }
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-$("#{{ form.picture.id_for_label }}").change(function() {
-    readURL(this);
-});
+        
+        
+        
+
     </script>
+    
 
 {% endblock script %}
-
 
 {% block content %}
 
@@ -144,8 +79,9 @@ $("#{{ form.picture.id_for_label }}").change(function() {
                     <div class="card">
                         <h5 class="card-header"><p class="h5">Add A New Product </p></h5>
                         <div class="card-body">
-                            <form enctype="multipart/form-data" action="{% url 'new_product' %}" method="post" class="mb-5">
+                            <form enctype="multipart/form-data" action="{% url 'new_product' %}" method="post" class="mb-5">  
                                 {% csrf_token %}
+                                
                                 <div class="container">
                                     
                                     
@@ -156,14 +92,14 @@ $("#{{ form.picture.id_for_label }}").change(function() {
                                     <select name="{{ form.supplier.name }}" id="{{ form.supplier.id_for_label }}" class="form-control" class="form-select">
                                         <option value="">----------- Select The Supplier --------------</option>
                                         {% for supplier in suppliers %}
-                                            <option value="{{ supplier.pk }}">{{ supplier.supplier }}</option> 
+                                            <option value="{{ supplier.pk }}">{{ supplier}}</option> 
                                         {% endfor %}
                                     </select>
                                 </div>
 
 
                                     <div class="col">
-                                        <label for="{{ form.contact.id_for_label }}">Description</label>
+                                        <label for="{{ form.description.id_for_label }}">Description</label>
                                         <textarea type="text" name="{{ form.description.name }}" id="{{ form.description.id_for_label }}" class="form-control"></textarea>
                                     </div>
                                 </div>
@@ -171,16 +107,25 @@ $("#{{ form.picture.id_for_label }}").change(function() {
                                 <div class="form-row">
                                     <div class="col">
                                         <label for="{{ form.quantity.id_for_label }}">Quantity</label>
-                                        <input type="text" name="{{ form.quantity.name }}" id="{{ form.quntity.id_for_label }}" class="form-control">
+                                        <input type="text" name="{{ form.quantity.name }}" id="{{ form.quantity.id_for_label }}" class="form-control">
                                     </div>
                                 </div>
-                                <div class="form-row mt-3">
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="{{ form.unit_price.id_for_label }}">Unit Price</label>
+                                        <input type="text" name="{{ form.unit_price.name }}" id="{{ form.unit_price.id_for_label }}" class="form-control">
+                                    </div>
+                                </div>
+                                <!--
+                                <div class="form-row">
                                     <div class="col">
                                         <label for="{{ form.invoice_amount.id_for_label }}">Invoice Amount</label>
-                                        <input type="text" id="{{ form.invoice_amount.id_for_label }}" class="form-control" name="{{ form.invoice_amount.name }}">
+                                        <input type="text" name="{{ form.invoice_amount.name }}" id="{{ form.invoice_amount.id_for_label }}" class="form-control">
                                     </div>
-                                    
+                                
                                 </div>
+                                -->
                                 <br>
                                 <hr>
                                 
@@ -193,5 +138,9 @@ $("#{{ form.picture.id_for_label }}").change(function() {
             </div>
         </div>
 
+
+    
+    
 {% endblock content %}
+
 

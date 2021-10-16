@@ -1,18 +1,16 @@
-{% extends '../base.html' %} 
 
-{% block title %}
-    <title>Prime Dominion</title>
-{% endblock title %}
-
-
+{%  extends 'app/main.html' %}
 
 {% block content %}
 
+{%  include 'app/status.html' %} 
 
+<br>
 
-    <br><br><br><br>
-    <div class="container">
-        <form action = "#" method = "POST" class="form-group">
+<div class="row">
+
+	<div class="container">
+        <form action = "{% url 'index' %}" method = "POST" class="form-group">
             {% csrf_token %}
             <div class="input-group mb-3">
                 <select class="form-select" aria-label="Default select example" name="dropdown">
@@ -22,74 +20,71 @@
                 </select>
             </div>
             <div class="input-group mb-3">
-                <input class="form-control form-control-lg" name="search_data" type="text" placeholder="Search for Supplier" aria-label="default input example">
+                <input class="form-control form-control-lg" name="data" type="text" placeholder="Search for Supplier" aria-label="default input example">
             </div>
             <button type="submit" class="btn btn-primary">Search</button>
         </form>
 
-        <div>
-
-            <table class="table">
-            {% if category == "Supplier" %}
-                
-                    <thead>
-                        <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Address</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Bank Details</th>
-
-
-                        </tr>
-                    </thead>
-                {% for query in queryset %}
-
-                    <tbody>
-                        <tr>
-                        <th scope="row">{{query.id}}</th>
-                        <td>{{query.name}}</td>
-                        <td>{{query.contact}}</td>
-                        <td>{{query.address}}</td>
-                        <td>{{query.email}}</td>
-                        <td>{{query.bank_details}}</td>
-                        </tr>
-                    </tbody>
-                {% endfor %}
-
-            {% endif %}
-            </table>
-
-        
-
-        </div>
     </div>
 
 
 
 
 
+	<div class="col-md-5">
+		<h5>SUPPLIERS:</h5>
+		<hr>
+		<div class="card card-body">
+			<a class="btn btn-primary  btn-sm btn-block" href="{% url 'new_supplier' %}">Create Supplier</a>
+			<table class="table table-sm">
+				<tr>
+					<th></th>
+					<th>Supplier</th>
+					<th>Phone</th>
+				</tr>
 
+				{% for supplier in supplier_queryset %}
+					<tr>
+						<td><a class="btn btn-sm btn-info" href="">View</a></td>
+						<td>{{supplier.name}}</td>
+						<td>{{supplier.contact}}</td>
+					</tr>
+				{% endfor %}
 
+			</table>
+		</div>
+	</div>
 
+	<div class="col-md-7">
+		<h5>Products</h5>
+		<hr>
+		<div class="card card-body">
 
+			<table class="table table-sm">
+				<tr>
+					<th scope="col">Name</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Unit Price</th>
+				</tr>
 
+				{% for Product in product_queryset %}
+					<tr>
+						<td>{{Product.supplier}}</td>
+						<td>{{Product.quantity}}</td>
+						<td>{{Product.unit_price}}</td>
+						<td><a class="btn btn-sm btn-info" href="">Update</a></td>
 
+						<td><a class="btn btn-sm btn-danger" href="">Delete</a></td>
 
+					</tr>
+				{% endfor %}
 
+		
+			</table>
+		</div>
+	</div>
 
-
-
-
-
-
-
-
-
-
-
-
+</div>
 
 
 
