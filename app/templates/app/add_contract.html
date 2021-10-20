@@ -1,0 +1,180 @@
+{% extends '../base.html' %}
+
+{% block title %}
+    <title>Add Contract</title>
+{% endblock title %}
+
+
+
+
+{% block internal_style %}
+
+    <style>
+        .container {
+            max-width: 960px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 20px;
+            text-align: center;
+            margin: 20px 0 20px;
+        }
+        h1 small {
+            display: block;
+            font-size: 15px;
+            padding-top: 8px;
+            color: gray;
+        }
+
+        
+        
+        
+    </style>
+
+{% endblock internal_style %}
+
+{% block script %}
+    <script>
+        
+        
+        
+
+    </script>
+    
+
+{% endblock script %}
+
+{% block content %}
+
+    <br><br><br><br>
+    o
+    <div class="dashboard-wrapper">
+        <div class="container-fluid dashboard-content">
+            <div class="row">
+                <div class="col-xs-12 col-lg-11 col-md-11 col-sm-12 col-xl-7 mx-auto">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="col-lg-12 mr-auto ml-auto alert bg-warning alert-dismissable pb-0 pt-0" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true" class="text-danger"><b>&times;</b></span>
+                                </button>
+                                <div class="row">
+                                    <div class="mr-auto ml-auto">
+                                    <p class="h5 mr-auto ml-auto p-2 text-light">
+                                         <b>
+                                            {% if message.tags ==  "alert-danger" %}
+                                                <i class="fa fa-exclamation-triangle mr-3 text-danger"></i> {{ message }}
+                                            {% else %}
+                                                <i class="fa fa-check"></i> {{ message }}
+                                            {% endif %}
+                                        </b>
+                                    </p>
+                                </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="card">
+                        <h5 class="card-header"><p class="h5">Add Contract</p></h5>
+                        <div class="card-body">
+                            <form enctype="multipart/form-data" action="{% url 'contract_continues' %}" method="POST" class="mb-5">  
+                                {% csrf_token %}
+                            
+                                
+
+                                
+                                <!--
+                                
+                                <div class="form-row mb-4">
+                                    <label for="{{ form.invoice_number.id_for_label }}">Invoice Number</label>
+                                    <input type="text" name="{{ form.invoice_number.name }}" id="{{ form.invoice_number.id_for_label }}" required class="form-control">
+                                </div>
+
+                                <div class="form-row mb-4">
+                                    <label for="{{ form.start_date.id_for_label }}">Start Date</label>
+                                    <input type="datetime-local" name="{{ form.start_date.name }}" id="{{ form.start_date.id_for_label }}" required class="form-control">
+                                </div>
+
+
+                                <div class="form-row mb-4">
+                                    <label for="{{ form.due_date.id_for_label }}">Due Date</label>
+                                    <input type="datetime-local" name="{{ form.due_date.name }}" id="{{ form.due_date.id_for_label }}" required class="form-control">
+                                </div>
+
+
+                                
+                                    <div class="form-group form-row mb-4">
+                                    <label for="{{ form.supplier.id_for_label }}">Supplier</label>
+                                    <select name="{{ form.supplier.name }}" id="{{ form.supplier.id_for_label }}" class="form-control" required class="form-select">
+                                        <option value="">----------- Select The Supplier --------------</option>
+                                        {% for supplier in suppliers reversed %}
+                                            <option value="{{ supplier.pk }}">{{ supplier}}</option> 
+                                        {% endfor %}
+                                    </select>
+                                    </div>
+
+                                    
+                                <div class="form-row mb-4">
+                                    <label for="{{ form.invoice_amount.id_for_label }}">Invoice Amount</label>
+                                    <input type="text" id="{{ form.invoice_amount.id_for_label }}" class="form-control" required name="{{ form.invoice_amount.name }}">
+                                </div>
+                                
+
+                            
+                                <div class="form-row mb-4">
+                                    
+                                    <label for="{{ form.product_name.id_for_label }}">Product Name</label>
+                                    <input type="text" id="{{ form.product_name.id_for_label }}" class="form-control" required name="{{ form.product_name.name }}">
+                                    
+                                </div> 
+                                
+
+                                
+                                <div class="form-row field-contract_terms">
+                                    <div>
+                                        <label class="required" for="id_contract_terms">Contract terms:</label>
+                                            
+                                            <select name="contract_terms" required id="id_contract_terms">
+                                                <option value="">---------</option>
+
+                                                <option value="30-70%" selected>30-70%</option>
+
+                                                <option value="50-50%">50-50%</option>
+
+                                                <option value="Cash On Delivery">Cash On Delivery</option>
+
+                                                <option value="Credit">Credit</option>
+
+                                            </select>
+                                    </div>
+                                </div>
+
+                                <br>
+                                <div class="form-row mb-6">
+                                    <label for="{{ form.Bank_address.id_for_label }}">Account Officer</label>
+                                    <input type="text" id="{{ form.Bank_address.id_for_label }}" class="form-control" required name="{{ form.Bank_address.name }}">
+                                </div> 
+
+                               -->
+
+                               {{form.as_p}}
+                                <br>
+                                <hr>
+                                
+
+                                <button type="submit" class="btn btn-success mt-5 text-light btn-sm shadow">Add Contract</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    
+    
+{% endblock content %}
+
+

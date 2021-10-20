@@ -1,66 +1,52 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import fields, manager
 from django.db.models.base import Model
 from django.db.models.deletion import CASCADE
+from django.db.models.fields import DateField, FloatField
 from django.db.models.fields.related import ForeignKey
+from django.db.utils import DatabaseError
+
 
 #from app.views import transactions
 
 # Create your models here.
 class Supplier(models.Model):
-    name = models.CharField(max_length=200, help_text='Enter your full name')
+    name = models.CharField(max_length=50, help_text='Enter your full name')
     contact = models.PositiveIntegerField(null=True, blank=True)
-    address = models.CharField(max_length=255)
-    email = models.EmailField(max_length = 150, help_text="Enter your email address")
-    bank_details = models.CharField(max_length=200)
-
+    address = models.CharField(max_length=255, null=True)
+    email = models.EmailField(max_length = 50, help_text="Enter your email address")
+    bank_details = models.CharField(max_length=200, help_text='Summary of bank details', null=True)
+    Bank_name = models.CharField(max_length=50, null=True)
+    Bank_address = models.CharField(max_length=50, null=True)
+    Bank_account_name = models.CharField(max_length=50, null=True)
+    Bank_account_number = models.CharField(max_length=50, null=True)
+    swift_code = models.CharField(max_length=50, null=True)
 
     def __str__(self):
         return self.name
  
 
 
-class Product(models.Model):
-    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
-    description = models.TextField()
-    quantity = models.IntegerField()
-    unit_price = models.FloatField()
-    invoice_amount = models.FloatField()
-
+class Contract(models.Model):
     
-    def __str__(self):
-        return self.supplier.name
-
-class Invoice(models.Model):
-    invoice_number = models.CharField(max_length=25)
-    invoice_date = models.DateTimeField()
-    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
-    invoice_number = models.FloatField()
-    product_name = models.CharField(max_length=30)
-
-    def __str__(self):
-        return self.invoice_number
-
-
-
-class Transaction(models.Model):
-    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
-    transaction_id = models.CharField(max_length=40)
-    invoice_amount = models.FloatField()
-    #contract terms
-
-    
-    def __str__(self):
-        return self.transaction_id
-
-class User(models.Model):
-    username = models.CharField(max_length=15)
-    password = models.CharField(max_length=15)
+    terms = (
+        ('30-70%', '30-70%'),
+        ('50-50%', '50-50%'),
+        ('Cash On Delivery', 'Cash On Delivery'),
+        ('Credit', 'Credit'),
+    )
+    invoice_number = models.CharField(max_length=50, null=50)
+    start_date = models.DateTimeField()
+    due_date = models.DateTimeField()
+    supplier = models.ForeignKey(Supplier, on_delete=CASCADE)
+    invoice_amount = models.DecimalField(max_digits=9, decimal_places=2)
+    product_name = models.CharField(max_length=50, null=True)
+    contract_terms = models.CharField(max_length=50, choices=terms)
+    account_officer = models.CharField(max_length=50, null=True)
 
     def __str__(self):
-        return self.username
-
-
+        return f'Supplier: {self.supplier} - Product: {self.product_name}'
 
 

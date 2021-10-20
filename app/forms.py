@@ -1,37 +1,35 @@
 from django import forms
 from django.forms import fields
 from django.forms.forms import Form
-from .models import Product, Supplier, Transaction, User
+from .models import Supplier, Contract
 from app import models
-import calculation
+
 
 # Create your forms here.
 class AddSupplierForm(forms.ModelForm):
     class Meta:
         model = Supplier
-        fields = ['name', 'contact', 'address', 'email', 'bank_details']
+        fields = '__all__'
 
 
-class LoginForm(forms.ModelForm):
+
+class AddContractForm(forms.ModelForm):
     class Meta:
-        model = User
-        fields = ['username', 'password']
-
-
-class AddProductForm(forms.ModelForm):
-    invoice_amount = forms.DecimalField(
-        widget=calculation.FormulaInput('quantity*unit_price')
-    )
-    class Meta:
-        model = Product
-        fields = ['supplier', 'description', 'quantity', 'unit_price', 'invoice_amount']
+        model = Contract
+        fields = '__all__'
     
+        widgets = {
+            "invoice_number": forms.TextInput(attrs={'class': 'form-control'}),
+            "start_date": forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),
+            "due_date": forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),
+            "supplier": forms.Select(attrs={'class': 'form-control'}),
+            "invoice_amount": forms.TextInput(attrs={'class': 'form-control'}),
+            "product_name": forms.TextInput(attrs={'class': 'form-control'}),
+            "contract_terms": forms.Select(attrs={'class': 'form-control'}),
+            "account_officer": forms.TextInput(attrs={'class': 'form-control'}),
+        }
     
 
-class TransactionForm(forms.ModelForm):
-    class Meta:
-        model = Transaction
-        fields = ['supplier', 'transaction_id', 'invoice_amount']
 
 
 class PasswordResetForm(forms.Form):

@@ -5,8 +5,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Supplier, Product, Transaction
-from .forms import AddSupplierForm, AddProductForm, TransactionForm, PasswordResetForm
+from .models import Supplier, Contract
+from .forms import AddSupplierForm, PasswordResetForm, AddContractForm
+
 
 from django.core.mail import send_mail, BadHeaderError
 from django.contrib.auth.forms import PasswordResetForm
@@ -15,6 +16,7 @@ from django.db.models.query_utils import Q
 from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
+
 
 # Create your views here.
 def loginPage(request):
@@ -43,31 +45,19 @@ def logoutUser(request):
 	logout(request)
 	return redirect('login')
 
+
+
 @login_required(login_url='login')
 def index(request):
-    product_queryset = Product.objects.all()
-    if request.method == "POST":
-        category = request.POST.get('dropdown')
-        search_data = request.POST.get('search_data')
-
-        if category == "Supplier":
-            if search_data != "":
-                supplier_queryset = Supplier.objects.filter(name__contains=search_data)
-                return render(request, 'app/index.html', {"supplier_queryset":supplier_queryset, "product_queryset":product_queryset})
-            else:
-                return HttpResponse('<p>Enter either supplier name or product name to search</p>')
-    
-        elif category == "Products":
-            return HttpResponse('<p> We have not implemented other saerch yet. Search for only supplier and track the other relationships </p>')
-
-        else:
-            return HttpResponse('<p> We have not implemented other saerch yet. Search for only supplier and track the other relationships </p>')
+	if 'data' in request.GET:
+		data = request.GET['data']
+		supplier_queryset  = Supplier.objects.filter(name__icontains=data)
+	else:
+		supplier_queryset = Supplier.objects.all()
+	contracts = Contract.objects.all()
 
 
-    else:
-        supplier_queryset = Supplier.objects.all()
-        product_queryset = Product.objects.all()
-        return render(request, 'app/index.html', {"supplier_queryset":supplier_queryset, "product_queryset":product_queryset})
+	return render(request, 'app/index.html', {"supplier_queryset":supplier_queryset, "contracts":contracts})
 
 
 
@@ -91,33 +81,34 @@ def new_supplier(request):
     return render(request, 'app/add_supplier.html', {"form": form})
 
 
-
-@login_required(login_url='login')
-def new_product(request):
-    
-    suppliers = Supplier.objects.all()
-    if request.method == "POST":
-        form = AddProductForm(request.POST or None)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "New Supplier Added Successfully")
-            return redirect('records')
-        else:
-            messages.error(request, "Failed to Add New Produce")
-
-    else:
-        return render(request, 'app/add_product.html', {"suppliers":suppliers})
-
-    
-    return render(request, 'app/add_product.html', {"form": form, "suppliers":suppliers})
- 
-
-
 @login_required(login_url='login')
 def records(request):
 
     return render(request, 'app/records.html')
 
+
+
+
+@login_required(login_url='login')
+def contract_continues(request):
+
+	form = AddContractForm()
+	
+	if request.method == "POST":
+		form = AddContractForm(request.POST)
+		if form.is_valid():
+			pa = form.save(commit=False)
+			pa.save()
+
+			messages.success(request, "New Contract Added Successfully")
+		else:
+			messages.error(request, "Failed to Add New Contract")
+
+	suppliers = Supplier.objects.all()
+	context = {"form": form, "suppliers":suppliers}
+
+	return render(request, 'app/add_contract.html', context)
+ 
 
 
 @login_required(login_url='login')
@@ -128,18 +119,63 @@ def list_suppliers(request):
     return render(request, 'app/list_suppliers.html', {"suppliers": suppliers, "total_suppliers":total_suppliers})
 
 
+def view_record(request, pk):
+	view_details = get_object_or_404(Supplier, pk=pk)
+	return render(request, 'app/supplier_details.html', {"supplier":view_details})
+
+
 
 @login_required(login_url='login')
-def list_products(request):
+def update_supplier(request, pk):
     
-    products = Product.objects.all()
+	update_s = Supplier.objects.get(pk=pk)
+	form = AddSupplierForm(instance=update_s)
 
-    totat_producct = Product.objects.all().count()
-    
-    return render(request, 'app/list_products.html', {"products": products, "totat_producct":totat_producct})
+	if request.method == 'POST':
+		form = AddSupplierForm(request.POST, instance=update_s)
+		if form.is_valid():
+			form.save()
+			return redirect('index')
+
+	context = {'form':form, "update_s":update_s}
+	return render(request, 'app/update_supplier.html', context)
 
 
 
+@login_required(login_url='login')
+def delete_supplier(request, pk):
+	del_supplier = Supplier.objects.get(pk=pk)
+	if request.method == "POST":
+		del_supplier.delete()
+		return redirect('/')
+
+	context = {'del_supplier':del_supplier}
+	return render(request, 'app/delete.html', context)
+
+
+
+@login_required(login_url='login')
+def contract_list(request):
+
+    contracts = Contract.objects.all()
+    total_contracts = Contract.objects.all().count()
+    return render(request, 'app/contract_list.html', {"contracts":contracts, "total_contracts":total_contracts})
+
+
+
+@login_required(login_url='login')
+def delete_contract(request, pk):
+
+	del_contract = Supplier.objects.get(pk=pk)
+	if request.method == "POST":
+		del_contract.delete()
+		return redirect('index')
+
+	context = {'del_contract':del_contract}
+	return render(request, 'app/delete.html', context)
+
+
+'''
 @login_required(login_url='login')
 def transactions(request):
 
@@ -162,15 +198,6 @@ def transactions(request):
 
 
 
-@login_required(login_url='login')
-def list_transactions(request):
-
-    transactions = Transaction.objects.all()
-    total_transactions = Transaction.objects.all().count()
-    return render(request, 'app/list_transaction.html', {"transactions":transactions, "total_transactions":total_transactions})
-
-
-'''
 Password reset form using in-built django form 
 def password_reset_request(request):
 	if request.method == "POST":
@@ -199,8 +226,8 @@ def password_reset_request(request):
 					return redirect ("/password_reset/done/")
 	password_reset_form = PasswordResetForm()
 	return render(request=request, template_name="password/password_reset.html", context={"password_reset_form":password_reset_form})
-'''
 
+'''
 
 def password_reset_request(request):
 	if request.method == "POST":

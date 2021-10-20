@@ -10,19 +10,13 @@
 <div class="row">
 
 	<div class="container">
-        <form action = "{% url 'index' %}" method = "POST" class="form-group">
+        <form>
             {% csrf_token %}
-            <div class="input-group mb-3">
-                <select class="form-select" aria-label="Default select example" name="dropdown">
-                    <option selected>Supplier</option>
-                    <option value="Products">Products</option>
-                    <option value="Products">Transactions ID</option>
-                </select>
-            </div>
+            <h3>Search for supplier</h3>
             <div class="input-group mb-3">
                 <input class="form-control form-control-lg" name="data" type="text" placeholder="Search for Supplier" aria-label="default input example">
             </div>
-            <button type="submit" class="btn btn-primary">Search</button>
+            <button class="btn btn-primary">Search</button>
         </form>
 
     </div>
@@ -43,11 +37,12 @@
 					<th>Phone</th>
 				</tr>
 
-				{% for supplier in supplier_queryset %}
+				{% for supplier in supplier_queryset reversed %}
 					<tr>
-						<td><a class="btn btn-sm btn-info" href="">View</a></td>
+						<td><a class="btn btn-sm btn-info" href="view_record/{{supplier.pk}}">View</a></td>
 						<td>{{supplier.name}}</td>
 						<td>{{supplier.contact}}</td>
+						<td><a class="btn btn-sm btn-info" href="update/{{supplier.pk}}">Update</a></td>
 					</tr>
 				{% endfor %}
 
@@ -62,19 +57,22 @@
 
 			<table class="table table-sm">
 				<tr>
-					<th scope="col">Name</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Unit Price</th>
+					<th scope="col">Supplier</th>
+                    <th scope="col">Invoice Amount</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Contract Terms</th>
 				</tr>
 
-				{% for Product in product_queryset %}
+				{% for contract in contracts reversed %}
 					<tr>
-						<td>{{Product.supplier}}</td>
-						<td>{{Product.quantity}}</td>
-						<td>{{Product.unit_price}}</td>
-						<td><a class="btn btn-sm btn-info" href="">Update</a></td>
+						<td>{{contract.supplier}}</td>
+						<td>{{contract.invoice_amount}}</td>
+						<td>{{contract.product_name}}</td>
+						<td>{{contract.contract_terms}}</td>
+						<td><a class="btn btn-sm btn-info" href="#">Update</a></td>
+						
 
-						<td><a class="btn btn-sm btn-danger" href="">Delete</a></td>
+						<td><a class="btn btn-sm btn-danger" href="#">Delete</a></td>
 
 					</tr>
 				{% endfor %}
