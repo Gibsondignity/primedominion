@@ -26,7 +26,7 @@
 
 
 	<div class="col-md-5">
-		<h5>SUPPLIERS:</h5>
+		<h5>Suppliers:</h5>
 		<hr>
 		<div class="card card-body">
 			<a class="btn btn-primary  btn-sm btn-block" href="{% url 'new_supplier' %}">Create Supplier</a>
@@ -39,7 +39,7 @@
 
 				{% for supplier in supplier_queryset reversed %}
 					<tr>
-						<td><a class="btn btn-sm btn-info" href="view_record/{{supplier.pk}}">View</a></td>
+						<td><a class="btn btn-sm btn-info text-white" href="view_record/{{supplier.pk}}">View</a></td>
 						<td>{{supplier.name}}</td>
 						<td>{{supplier.contact}}</td>
 						<td><a class="btn btn-sm btn-info" href="update/{{supplier.pk}}">Update</a></td>
@@ -69,10 +69,9 @@
 						<td>{{contract.invoice_amount}}</td>
 						<td>{{contract.product_name}}</td>
 						<td>{{contract.contract_terms}}</td>
-						<td><a class="btn btn-sm btn-info" href="#">Update</a></td>
+						<td><a class="btn btn-sm btn-info" href="{% url 'update_contract' contract.pk %}">Update</a></td>
 						
-
-						<td><a class="btn btn-sm btn-danger" href="#">Delete</a></td>
+						<td><a class="btn btn-sm btn-danger" href="{% url 'delete_contract' contract.pk %}">Delete</a></td>
 
 					</tr>
 				{% endfor %}

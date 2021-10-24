@@ -1,0 +1,103 @@
+{% extends '../main.html' %} {% load static %}
+
+{% block title %}
+    <title>Update Payment</title>
+{% endblock title %}
+
+
+
+
+{% block internal_style %}
+
+    <style>
+        .container {
+            max-width: 960px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 20px;
+            text-align: center;
+            margin: 20px 0 20px;
+        }
+        h1 small {
+            display: block;
+            font-size: 15px;
+            padding-top: 8px;
+            color: gray;
+        }
+    </style>
+
+{% endblock internal_style %}
+
+
+
+
+{% block content %}
+
+    <br><br><br><br>
+    
+    <div class="dashboard-wrapper">
+        <div class="container-fluid dashboard-content">
+            <div class="row">
+                <div class="col-xs-12 col-lg-11 col-md-11 col-sm-12 col-xl-7 mx-auto">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="col-lg-12 mr-auto ml-auto alert bg-warning alert-dismissable pb-0 pt-0" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true" class="text-danger"><b>&times;</b></span>
+                                </button>
+                                <div class="row">
+                                    <div class="mr-auto ml-auto">
+                                    <p class="h5 mr-auto ml-auto p-2 text-light">
+                                         <b>
+                                            {% if message.tags ==  "alert-danger" %}
+                                                <i class="fa fa-exclamation-triangle mr-3 text-danger"></i> {{ message }}
+                                            {% else %}
+                                                <i class="fa fa-check"></i> {{ message }}
+                                            {% endif %}
+                                        </b>
+                                    </p>
+                                </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="card">
+                        <h5 class="card-header"><p class="h5">Add A New Transaction </p></h5>
+                        <div class="card-body">
+                            <form enctype="multipart/form-data" action="" method="post" class="mb-5">
+                                {% csrf_token %}
+                                
+
+                                {{ form.as_p }}
+
+                                <br>
+                                <hr>
+                                
+
+                                <button type="submit" class="btn btn-success mt-5 text-light btn-sm shadow">Update</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock content %}
+
+{%block script%}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(".amount, .invoice").keyup(function(){
+                var total = 0;
+                var x = Number($(".amount").val());
+                var y = Number($(".invoice").val());
+                var total = y - x;
+                $(".balance").val(total.toFixed(2))
+            });
+        });
+    </script>
+{%endblock script%}
+

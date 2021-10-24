@@ -1,0 +1,169 @@
+{% extends '../main.html' %} {% load static %}
+
+{% block title %}
+    <title>Supplier Transaction</title>
+{% endblock title %}
+
+
+
+
+{% block internal_style %}
+
+    <style>
+        .container {
+            max-width: 960px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 20px;
+            text-align: center;
+            margin: 20px 0 20px;
+        }
+        h1 small {
+            display: block;
+            font-size: 15px;
+            padding-top: 8px;
+            color: gray;
+        }
+    </style>
+
+{% endblock internal_style %}
+
+
+
+
+{% block content %}
+
+    <br><br><br><br>
+    
+    <div class="dashboard-wrapper">
+        <div class="container-fluid dashboard-content">
+            <div class="row">
+                <div class="col-xs-12 col-lg-11 col-md-11 col-sm-12 col-xl-7 mx-auto">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="col-lg-12 mr-auto ml-auto alert bg-warning alert-dismissable pb-0 pt-0" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true" class="text-danger"><b>&times;</b></span>
+                                </button>
+                                <div class="row">
+                                    <div class="mr-auto ml-auto">
+                                    <p class="h5 mr-auto ml-auto p-2 text-light">
+                                         <b>
+                                            {% if message.tags ==  "alert-danger" %}
+                                                <i class="fa fa-exclamation-triangle mr-3 text-danger"></i> {{ message }}
+                                            {% else %}
+                                                <i class="fa fa-check"></i> {{ message }}
+                                            {% endif %}
+                                        </b>
+                                    </p>
+                                </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="card">
+                        <h5 class="card-header"><p class="h5">Add A New Transaction </p></h5>
+                        <div class="card-body">
+                            <form enctype="multipart/form-data" action="{% url 'transaction' %}" method="post" class="mb-5">
+                                {% csrf_token %}
+                                
+
+                                <div class="form-row mb-4">           
+                                    <label class="required" for="id_payment_status">Payment status:</label> 
+                                    {{ form.payment_status }}  
+                                </div>
+                                
+
+                                <div class="form-row">
+                                    <label for="{{ form.invoice_amount.id_for_label }}">Invoice Amount</label>
+                                    <input type="text" placeholder="Confirm Invoice Number(s) Below Before Selecting" id="{{ form.invoice_amount.id_for_label }}" class="form-control invoice" name="{{ form.invoice_amount.name }}">                                    
+                                </div>
+                                    {% for invoice in contract_invoice reversed%}
+                                    <ul>
+                                        <li>{{ invoice.invoice_amount }}</li>
+                                    </ul> 
+                                    {% endfor %}
+
+
+                                <div class="form-row mb-4">
+                                    <label for="{{ form.amount_paid.id_for_label }}">Amount Paid</label>
+                                    <input type="text" name="{{ form.amount_paid.name }}" id="{{ form.amount_paid.id_for_label }}" class="form-control amount">
+                                </div>
+
+
+                                <div class="form-row mb-4">
+                                    <label for="{{ form.address.id_for_label }}">Supplier</label>
+                                    {{form.supplier}}
+                                    <p>Select: {{ supplier.name }}</p>
+                                </div>
+                                    
+
+                                <div class="form-row mb-4">
+                                    <label for="{{ form.swift_code.id_for_label }}">Swift Code</label>
+                                    <input type="text" value="{{ supplier.swift_code }}" id="{{ form.swift_code.id_for_label }}" class="form-control" name="{{ form.swift_code.name }}">
+                                </div>
+                            
+                                
+                                <div class="form-row mb-4">           
+                                        <label class="required" for="{{ form.balance_due.id_for_label }}">Payment Due:</label> 
+                                        {{ form.balance_due }}  
+                                </div>
+
+                                
+                                <div class="form-row mb-4">
+                                    <label for="{{ form.balance.id_for_label }}">Balace</label>
+                                    <input type="text" value="{{ supplier.balance }}" id="{{ form.balance.id_for_label }}" class="form-control balance" name="{{ form.balance.name }}" readonly>                                
+                                </div>
+
+
+                                <br>
+                                <hr>
+                                
+
+                                <button type="submit" class="btn btn-success mt-5 text-light btn-sm shadow">Transact</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock content %}
+
+{%block script%}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(".amount, .invoice").keyup(function(){
+                var total = 0;
+                var x = Number($(".amount").val());
+                var y = Number($(".invoice").val());
+                var total = y - x;
+                $(".balance").val(total.toFixed(2))
+            });
+        });
+    </script>
+{%endblock script%}
+
+{% comment %} $(function(){
+            $('.amount').mask('#,###.##',{reverse : true});
+        });
+
+        var total_amount = function(){
+            var sum = 0
+
+            $('.amount').each(function(){
+                var num = $(this).val().replace(',','');
+
+                if(num != 0){
+                    sum += parseFloat(num)
+                }
+            });
+            $('#total_amount').val(sum.toFixed(2))
+        }
+
+        $('.amount').keyup(function(){
+            total_amount()
+        }); {% endcomment %}

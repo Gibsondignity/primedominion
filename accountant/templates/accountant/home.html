@@ -1,0 +1,113 @@
+{%  extends '../main.html' %}
+
+{% block content %}
+
+{%  include '../status.html' %} 
+
+<br>
+
+<div class="row">
+
+	<div class="container">
+        <form>
+            {% csrf_token %}
+            <h3>Search for supplier</h3>
+            <div class="input-group mb-3">
+                <input class="form-control form-control-lg" name="data" type="text" placeholder="Search for Supplier" aria-label="default input example">
+            </div>
+            <button class="btn btn-primary">Search</button>
+        </form>
+
+    </div>
+
+
+
+
+
+	<div class="col-md-5">
+		<h5>Suppliers:</h5>
+		<hr>
+		<div class="card card-body">
+			<table class="table table-sm">
+				<tr>
+					<th></th>
+					<th>Supplier</th>
+					<th>Phone</th>
+				</tr>
+
+				{% for supplier in supplier_queryset reversed %}
+					<tr>
+						<td><a class="btn btn-sm btn-info" href="{% url 'supplier_details' supplier.pk %}">View</a></td>
+						<td>{{supplier.name}}</td>
+						<td>{{supplier.contact}}</td>
+						<td><a class="btn btn-sm btn-info" href="{% url 'transact_for_supplier' supplier.pk %}">Transact</a></td>
+					</tr>
+				{% endfor %}
+
+			</table>
+		</div>
+	</div>
+
+	<div class="col-md-7">
+		<h5>Transactions</h5>
+		<hr>
+		<div class="card card-body">
+
+			<table class="table table-sm">
+				<tr>
+					<th scope="col">Supplier</th>
+					<th scope="col">Payment Status</th>
+                    <th scope="col">Amount Paid</th>
+                    <th scope="col">Invoice Amount</th>
+                    <th scope="col">Balace Due</th>
+                    <th scope="col">Swift Code</th>
+                    <th scope="col">Balance</th>
+				</tr>
+
+				{% for transact in transactions reversed %}
+					<tr>
+						<td>{{transact.supplier}}</td>
+						<td>{{transact.payment_status}}</td>
+						<td class="amount">{{transact.amount_paid}}</td>
+						<td>{{transact.invoice_amount}}</td>
+						<td>{{transact.balance_due}}</td>
+						<td>{{transact.swift_code}}</td>
+						<td>{{transact.balance}}</td>
+						<td><a class="btn btn-sm btn-info" href="{% url 'update_payment' transact.pk %}">Update</a></td>
+						
+						<td><a class="btn btn-sm btn-danger" href="{% url 'delete_transaction' transact.pk %}">Delete</a></td>
+
+					</tr>
+				{% endfor %}
+
+		
+			</table>
+		</div>
+	</div>
+
+</div>
+
+
+
+{% endblock content %}
+
+{%block script%}
+<script type="text/javascript">
+
+		var total_amount = function(){
+            var sum = 0
+
+            $('.amount').each(function(){
+                var num = $(this).val();
+
+                if(num != 0){
+                    sum += parseFloat(num)
+                }
+            });
+            $('#total').val(sum.toFixed(2))
+        }
+
+    
+
+</script>
+{% endblock script %}

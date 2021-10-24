@@ -98,6 +98,7 @@
             <th>Accounts Name</th>
             <th>Accounts Number</th>
             <th>Swift Code</th>
+            <th colspan="2">Action</th>
             
 		</tr>
 	</thead>
@@ -115,6 +116,8 @@
             <td>{{supplier.Bank_account_name}}</td>
             <td>{{supplier.Bank_account_number}}</td>
             <td>{{supplier.swift_code}}</td>
+            <td><a class="btn btn-sm btn-success" href="{% url 'update_supplier' supplier.pk %}">Update</a></td>
+            <td><a class="btn btn-sm btn-danger" href="{% url 'delete_supplier' supplier.pk %}">Delete</a></td>
         </tr>
     {% endfor %}
     </tbody>

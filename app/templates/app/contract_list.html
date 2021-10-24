@@ -105,7 +105,8 @@
                                     <td>{{contract.product_name}}</td>
                                     <td>{{contract.contract_terms}}</td>
                                     <td>{{contract.account_officer}}</td>
-                                    <td><a class="btn btn-sm btn-danger" href="#">Delete</a></td>
+                                    <td><a class="btn btn-sm btn-success" href="{% url 'update_contract' contract.pk %}">Update</a></td>
+                                    <td><a class="btn btn-sm btn-danger" href="{% url 'delete_contract' contract.pk %}">Delete</a></td>
                                 </tr>
                             {% endfor %}
                             </tbody>

@@ -34,6 +34,7 @@ ALLOWED_HOSTS =  ['*']
 INSTALLED_APPS = [
     'app.apps.AppConfig',
     'accountant',
+    'computed_property',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -58,7 +59,7 @@ ROOT_URLCONF = 'primedominion.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -127,7 +128,7 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-
+STATICFILES_DIR = [os.path.join(BASE_DIR, 'static')]
 
 
 
