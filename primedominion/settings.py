@@ -34,7 +34,6 @@ ALLOWED_HOSTS =  ['*']
 INSTALLED_APPS = [
     'app.apps.AppConfig',
     'accountant',
-    'computed_property',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
