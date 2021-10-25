@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Supplier, Contract
+from .models import *
 from .forms import AddSupplierForm, PasswordResetForm, AddContractForm
  
 
@@ -19,6 +19,20 @@ from django.utils.encoding import force_bytes
 
 
 # Create your views here.
+
+def loginID(request):
+	userid = request.POST.get('userid')
+	if request.method == "POST":
+		if ACUser.objects.filter(Loginid=userid):
+			return redirect("accountantLogin")
+		elif PAUser.objects.filter(PALoginid=userid):
+			return redirect("login")
+		else:
+			messages.info(request, 'Incorrect user ID')
+	return render(request, 'app/id_page.html')
+
+
+#@login_required(login_url='loginID')
 def loginPage(request):
 	
 	if request.method == 'POST':
@@ -120,16 +134,24 @@ def contract_continues(request):
 @login_required(login_url='login')
 def list_suppliers(request):
 
-    suppliers = Supplier.objects.all()
+    if 'data' in request.GET:
+         q = request.GET['data']
+         suppliers  = Supplier.objects.filter(Q(name__icontains=q) | Q(contact__icontains=q) | Q(address__icontains=q) | Q(email__icontains=q) | Q(Bank_account_number__icontains=q) | Q(swift_code__icontains=q) )
+    else:
+    	 suppliers = Supplier.objects.all()
+
     total_suppliers = Supplier.objects.all().count()
-    return render(request, 'app/list_suppliers.html', {"suppliers": suppliers, "total_suppliers":total_suppliers})
+
+    context = {"suppliers":suppliers, "total_suppliers":total_suppliers}
+    return render(request, 'app/list_suppliers.html', context)
 
 
 
 
 def view_record(request, pk):
 	view_details = get_object_or_404(Supplier, pk=pk)
-	return render(request, 'app/supplier_details.html', {"supplier":view_details})
+	contracts = view_details.contract_set.all()
+	return render(request, 'app/supplier_details.html', {"supplier":view_details, "contracts":contracts})
 
 
 
@@ -147,7 +169,7 @@ def update_supplier(request, pk):
 			return redirect('index')
 
 	context = {'form':form, "update_s":update_s}
-	return render(request, 'accountant/update_supplier.html', context)
+	return render(request, 'app/update_supplier.html', context)
 
 
 
@@ -168,9 +190,15 @@ def delete_supplier(request, pk):
 @login_required(login_url='login')
 def contract_list(request):
 
-    contracts = Contract.objects.all()
     total_contracts = Contract.objects.all().count()
-    return render(request, 'app/contract_list.html', {"contracts":contracts, "total_contracts":total_contracts})
+    if 'data' in request.GET:
+	    q = request.GET['data']
+	    contracts = Contract.objects.filter(Q(invoice_amount__icontains=q) | Q(invoice_amount__icontains=q) | Q(product_name__icontains=q) | Q(contract_terms__icontains=q) )
+    else:
+	    contracts = Contract.objects.all()
+
+    context = {"contracts":contracts, "total_contracts":total_contracts,  }
+    return render(request, 'app/contract_list.html', context)
 
 
 

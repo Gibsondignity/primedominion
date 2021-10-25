@@ -43,7 +43,6 @@
 
 {% block content %}
 
-    <br><br><br><br>
     
     <div class="dashboard-wrapper">
         <div class="container-fluid dashboard-content">
@@ -71,6 +70,20 @@
                 </div>
             {% endfor %}
         {% endif %}
+
+        <div class="container">
+            <form>
+                {% csrf_token %}
+                <h3>Search Below</h3>
+                <div class="input-group mb-3">
+                    <input class="form-control form-control-lg" name="data" type="text" placeholder="Eg. Ezekiel Mensah" aria-label="default input example">
+                </div>
+                <button class="btn btn-primary">Search</button>
+            </form>
+
+        </div>
+        <br><br>
+
             <div class="card">
                 <h5 class="card-header">
                     <a href="{% url 'contract_continues' %}" class="btn btn-sm btn-success shadow float-right text-light ml-5">Add Contract<i class="fa fa-plus ml-2"></i></a>

@@ -1,5 +1,7 @@
 {% extends '../base.html' %} 
 
+{% load static %}
+
 {% block title %}
     <title>Records</title>
 {% endblock title %}
@@ -53,14 +55,14 @@
                         <h3 class="h2">Select The Category</h3>
                     </div>
                     <div class="row mt-5">
-                        <div class="">
-                            <div class="card shadow">
+                        <div class="mw-80">
+                            <div class="card shadow mw-80">
                                 <div class="card-header">
                                     <p class="h5">Suppliers</p>
                                 </div>
                                 <div class="card-body">
                                     <p class="card-text">
-                                        Click to view all suppliers in our database, edit or modify an existing supplier, and delete existing supplier. Supplier details are in table form as listed below.<br>
+                                        Click to view all suppliers in our database, edit or modify an existing supplier, and delete existing supplier. Supplier details are in table form as listed as follows.
                                         # Name,	Phone,	Address, Email,	Bank Details,	Bank Name,	Bank Address,	Accounts Name,	Accounts Number, and Swift Code.
                                     </p>
                                     <a href="{% url 'list_suppliers' %}" class="btn btn-success text-light shadow btn-sm">View List</a>
@@ -74,7 +76,7 @@
                                 </div>
                                 <div class="card-body">
                                     <p class="card-text">
-                                        Click to view all added Contracts so far in our database, edit or modify an existing contract, and delete existing contract. Contract details are in table form as listed below.<br>   
+                                        Click to view all added Contracts so far in our database, edit or modify an existing contract, and delete existing contract. Contract details are in table form as listed as follows.   
                                         #, Invoice Number,	Start Date,	Due Date,	Supplier,	Invoice Amount,	Product Name,	Contract Terms, and	Account Officer 
                                     </p>
                                     <a href="{% url 'contract_list' %}" class="btn btn-success btn-sm shadow text-light">View List</a>
@@ -86,10 +88,10 @@
                                 <div class="card-header">
                                     <p class="h5">Transaction</p>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body"> 
                                     <p class="card-text">
-                                        Click to add new members, edit or modify an existing member, view or list saved members in the system and delete existing member.
-                                        Shepherds and Ministries of a particular member can also be accessed and modified from here.
+                                         Click to view all transactions so far in our database, edit or modify an existing transaction, and delete existing transaction. All transactions are in a table form as listed as follows. Supplier,	Payment Status,	Amount Paid,	Invoice Amount,	Balace Due,	Swift Code, and	Balance.
+                                         <br>Unfortunately you can not view this table. 
                                     </p>
                                     <a href="#" class="btn btn-success text-light btn-sm shadow">View List</a>
                                 </div>

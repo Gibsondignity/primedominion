@@ -45,8 +45,16 @@ class Contract(models.Model):
     product_name = models.CharField(max_length=50, null=True)
     contract_terms = models.CharField(max_length=50, choices=terms)
     account_officer = models.CharField(max_length=50, null=True)
-
+ 
     def __str__(self):
         return f'Supplier: {self.supplier} - Product: {self.product_name}'
 
 
+
+class ACUser(models.Model):
+    Loginid = models.CharField(max_length=6)
+    
+
+
+class PAUser(models.Model):
+    PALoginid = models.CharField(max_length=6)

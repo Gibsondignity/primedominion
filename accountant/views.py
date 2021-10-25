@@ -1,3 +1,4 @@
+from decimal import Context
 from django.http import request, response, HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -21,6 +22,8 @@ from django.utils.encoding import force_bytes
 
 
 # Create your views here.
+#@login_required(login_url='loginID')
+
 
 def accountantLogin(request):
 	if request.method == 'POST':
@@ -118,6 +121,8 @@ def update_payment(request, pk):
 
 
 
+
+
 @login_required(login_url='accountantLogin')
 def transact_for_supplier(request, pk):
 
@@ -146,8 +151,6 @@ def supplier_details(request, pk):
 
 
 
-
-
 @login_required(login_url='accountantLogin')
 def delete_transaction(request, pk):
 
@@ -161,13 +164,6 @@ def delete_transaction(request, pk):
 
 
 
-@login_required(login_url='accountantLogin')
-def contract_details(request):
-
-    suppliers = Supplier.objects.all()
-    total_suppliers = Supplier.objects.all().count()
-    return render(request, 'app/list_suppliers.html', {"suppliers": suppliers, "total_suppliers":total_suppliers})
-
 
 @login_required(login_url='accountantLogin')
 def contract_details(request):
@@ -179,9 +175,9 @@ def contract_details(request):
 
 
 
-'''
-@login_required(login_url='login')
-def list_suppliers(request):
+
+@login_required(login_url='accountantLogin')
+def contract_details(request):
 
     suppliers = Supplier.objects.all()
     total_suppliers = Supplier.objects.all().count()
@@ -190,20 +186,57 @@ def list_suppliers(request):
 
 
 
-def view_record(request, pk):
-	view_details = get_object_or_404(Supplier, pk=pk)
-	#supplier_contracts = Contract.objects.select_related('supplier').get(pk=pk)
-	return render(request, 'app/supplier_details.html', {"supplier":view_details})
+@login_required(login_url='login')
+def suppliers_data_list(request):
+
+	if 'data' in request.GET:
+         q = request.GET['data']
+         suppliers  = Supplier.objects.filter(Q(name__icontains=q) | Q(contact__icontains=q) | Q(address__icontains=q) | Q(email__icontains=q) | Q(Bank_account_number__icontains=q) | Q(swift_code__icontains=q) )
+	else:
+    	 suppliers = Supplier.objects.all()
+	total_suppliers = Supplier.objects.all().count()
+	context = {"suppliers":suppliers, "total_suppliers":total_suppliers}
+	return render(request, 'accountant/supplier_list.html', context)
+
+
 
 
 
 @login_required(login_url='login')
-def contract_list(request):
+def list_transactions(request):
 
-    contracts = Contract.objects.all()
-    total_contracts = Contract.objects.all().count()
-    return render(request, 'app/contract_list.html', {"contracts":contracts, "total_contracts":total_contracts})
-'''
+	
+	if 'data' in request.GET:
+		q = request.GET['data']
+		transactions = Accountant.objects.filter(Q(invoice_amount__icontains=q) | Q(amount_paid__icontains=q) | Q(swift_code__icontains=q) )
+	else:
+		transactions = Accountant.objects.all()
+
+	total_transactions = Accountant.objects.all().count()
+	context = {"total_transactions":total_transactions, "transactions":transactions }
+    
+	return render(request, 'accountant/list_transaction.html', context)
+
+
+
+
+
+@login_required(login_url='login')
+def list_all_contracts(request):
+
+	total_contracts = Contract.objects.all().count()
+	if 'data' in request.GET:
+		q = request.GET['data']
+		contracts = Contract.objects.filter(Q(invoice_amount__icontains=q) | Q(invoice_amount__icontains=q) | Q(product_name__icontains=q) | Q(contract_terms__icontains=q) )
+	else:
+		contracts = Contract.objects.all()
+
+	context = {"contracts":contracts, "total_contracts":total_contracts,  }
+    
+	return render(request, 'accountant/list_all_contracts.html', context)
+
+
+
 
 
 
