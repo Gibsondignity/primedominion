@@ -102,13 +102,13 @@
 
                             <div class="row">
                                 <button type="button" class="btn btn-primary col">
-                                    <span class="spinner-grow-sm"></span><a href="#" class="link-light">Delete Supplier</a>
+                                    <span class="spinner-grow-sm"></span><a href="#" class="link-light text-light">Delete Supplier</a>
                                 </button>
                             
 
                             
                                 <button type="button" class="btn btn-primary col">
-                                    <span class="spinner-grow-sm"></span><a href="#" class="link-light">Update Supplier</a>
+                                    <span class="spinner-grow-sm"></span><a href="#" class="link-light text-light">Update Supplier</a>
                                 </button>
                             </div>
 
@@ -129,7 +129,6 @@
             <th>Knvoice Amount</th>
             <th>Product Name</th>
             <th>Contract Terms</th>
-            <th>Account Officer </th>
             <th colspan="2">Action</th>
   
 		</tr>
@@ -143,12 +142,13 @@
             <td>{{contract.due_date}}</td>
             <td>{{contract.supplier}}</td>
             <td>{{contract.invoice_amount}}</td>
-            <td>{{contract.product_name}}</td>
+            <td>{{contract.product_name}}</td> 
             <td>{{contract.contract_terms}}</td>
-            <td>{{contract.account_officer}}</td>
+
             
-            <td><a class="btn btn-sm btn-success" href="#">Update</a></td>
-            <td><a class="btn btn-sm btn-danger" href="#">Delete</a></td>
+            
+            <td><a class="btn btn-sm btn-success" href="{% url 'transact_for_supplier' contract.pk %}">Transact</a></td>
+            <td><a class="btn btn-sm btn-primary" href="{% url 'update_payment' contract.pk %}">Update</a></td>
         </tr>
     {% endfor %}
     </tbody>

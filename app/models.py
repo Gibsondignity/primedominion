@@ -38,13 +38,13 @@ class Contract(models.Model):
         ('Credit', 'Credit'),
     )
     invoice_number = models.CharField(max_length=50, null=50)
-    start_date = models.DateTimeField()
-    due_date = models.DateTimeField()
+    start_date = models.DateField()
+    due_date = models.DateField()
     supplier = models.ForeignKey(Supplier, on_delete=CASCADE)
     invoice_amount = models.DecimalField(max_digits=9, decimal_places=2)
     product_name = models.CharField(max_length=50, null=True)
     contract_terms = models.CharField(max_length=50, choices=terms)
-    account_officer = models.CharField(max_length=50, null=True)
+    #account_officer = models.CharField(max_length=50, null=True)
  
     def __str__(self):
         return f'Supplier: {self.supplier} - Product: {self.product_name}'

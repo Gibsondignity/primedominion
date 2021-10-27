@@ -76,7 +76,7 @@
                 {% csrf_token %}
                 <h3>Search Below</h3>
                 <div class="input-group mb-3">
-                    <input class="form-control form-control-lg" name="data" type="text" placeholder="Eg. Ezekiel Mensah" aria-label="default input example">
+                    <input class="form-control form-control-lg" name="data" type="text" placeholder="Seach By: Invoice Amount, Invoice Amount, Product Name, and Contract Terms" aria-label="default input example">
                 </div>
                 <button class="btn btn-primary">Search</button>
             </form>
@@ -101,8 +101,7 @@
                                     <td>Invoice Amount</td>
                                     <td>Product Name</td>
                                     <td>Contract Terms</td>
-                                    <td>Account Officer</td>
-
+                                    <td colspan="2" class="text-center">Action</td>
                                 </tr>
                             </thead>
 
@@ -117,7 +116,6 @@
                                     <td>{{contract.invoice_amount}}</td>
                                     <td>{{contract.product_name}}</td>
                                     <td>{{contract.contract_terms}}</td>
-                                    <td>{{contract.account_officer}}</td>
                                     <td><a class="btn btn-sm btn-success" href="{% url 'update_contract' contract.pk %}">Update</a></td>
                                     <td><a class="btn btn-sm btn-danger" href="{% url 'delete_contract' contract.pk %}">Delete</a></td>
                                 </tr>

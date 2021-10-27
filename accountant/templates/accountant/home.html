@@ -25,22 +25,21 @@
 
 
 	<div class="col-md-5">
-		<h5>Suppliers:</h5>
+		<h5>Suppliers</h5>
 		<hr>
 		<div class="card card-body">
 			<table class="table table-sm">
 				<tr>
 					<th></th>
 					<th>Supplier</th>
-					<th>Phone</th>
+					<th>Swift Code</th>
 				</tr>
 
 				{% for supplier in supplier_queryset reversed %}
 					<tr>
 						<td><a class="btn btn-sm btn-info" href="{% url 'supplier_details' supplier.pk %}">View</a></td>
 						<td>{{supplier.name}}</td>
-						<td>{{supplier.contact}}</td>
-						<td><a class="btn btn-sm btn-info" href="{% url 'transact_for_supplier' supplier.pk %}">Transact</a></td>
+						<td>{{supplier.swift_code}}</td>
 					</tr>
 				{% endfor %}
 
@@ -60,7 +59,7 @@
                     <th scope="col">Amount Paid</th>
                     <th scope="col">Invoice Amount</th>
                     <th scope="col">Balace Due</th>
-                    <th scope="col">Swift Code</th>
+                    <th scope="col">Invoice Number</th>
                     <th scope="col">Balance</th>
 				</tr>
 
@@ -71,7 +70,7 @@
 						<td class="amount">{{transact.amount_paid}}</td>
 						<td>{{transact.invoice_amount}}</td>
 						<td>{{transact.balance_due}}</td>
-						<td>{{transact.swift_code}}</td>
+						<td>{{transact.invoice_number}}</td>
 						<td>{{transact.balance}}</td>
 						<td><a class="btn btn-sm btn-info" href="{% url 'update_payment' transact.pk %}">Update</a></td>
 						

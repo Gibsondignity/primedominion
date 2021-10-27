@@ -55,7 +55,7 @@ def accountantLogout(request):
 def home(request):
     if 'data' in request.GET:
         data = request.GET['data']
-        supplier_queryset  = Supplier.objects.filter(name__icontains=data)
+        supplier_queryset  = Supplier.objects.filter(Q(name__icontains=data)  | Q(swift_code__icontains=data) )
     else:
         supplier_queryset = Supplier.objects.all()
 
@@ -87,6 +87,7 @@ def transaction(request):
 		else:
 			messages.error(request, 'Failed to add new Transaction')
 
+	messages.error(request, 'You may use this form if you have all details about a supplier')
 	context = {"form":form}
       
 	return render(request, 'accountant/transaction.html', context)
@@ -114,7 +115,7 @@ def update_payment(request, pk):
 		form = AddContractForm(request.POST, instance=update_s)
 		if form.is_valid():
 			form.save()
-			return redirect('index')
+			return redirect('home')
 
 	context = {"form":form, "update_s":update_s}
 	return render(request, 'accountant/update_payment.html', context)
@@ -126,12 +127,17 @@ def update_payment(request, pk):
 @login_required(login_url='accountantLogin')
 def transact_for_supplier(request, pk):
 
-	supplier = get_object_or_404(Supplier, pk=pk)
-	contract_invoice = supplier.contract_set.all()
+	contract = get_object_or_404(Contract, pk=pk)
 	
-	form = AddContractForm(instance=supplier)
+	form = AddContractForm(instance=contract)
 
-	context = {'supplier':supplier, 'form':form, 'contract_invoice':contract_invoice}
+	
+	if Accountant.objects.filter(invoice_number=contract.invoice_number):
+		return HttpResponse(f'Transaction with this invoice {contract.invoice_number} has been done already. Please check for Update. To update go to dashboard or Records and choose Transaction')
+		messages.error(request, f"Transaction with this invoice {contract.invoice_number} has been done already. Please check for Update. To update go to dashboard or Records and choose Transaction")
+		
+	context = {'form':form, 'contract':contract}	
+	
 	return render(request, 'accountant/transact_for_supplier.html', context)
 
 
@@ -208,7 +214,7 @@ def list_transactions(request):
 	
 	if 'data' in request.GET:
 		q = request.GET['data']
-		transactions = Accountant.objects.filter(Q(invoice_amount__icontains=q) | Q(amount_paid__icontains=q) | Q(swift_code__icontains=q) )
+		transactions = Accountant.objects.filter(Q(invoice_amount__icontains=q) | Q(amount_paid__icontains=q) | Q(invoice_number__icontains=q) )
 	else:
 		transactions = Accountant.objects.all()
 

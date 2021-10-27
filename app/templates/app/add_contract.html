@@ -77,7 +77,7 @@
                         {% endfor %}
                     {% endif %}
                     <div class="card">
-                        <h5 class="card-header"><p class="h5">Add Contract</p></h5>
+                        <h5 class="card-header"><p class="h5">Add Invoice</p></h5>
                         <div class="card-body">
                             <form enctype="multipart/form-data" action="{% url 'contract_continues' %}" method="POST" class="mb-5">  
                                 {% csrf_token %}
@@ -87,7 +87,7 @@
                                 <hr>
                                 
 
-                                <button type="submit" class="btn btn-success mt-5 text-light btn-sm shadow">Add Contract</button>
+                                <button type="submit" class="btn btn-success mt-5 text-light btn-sm shadow">Add Invoice</button>
                             </form>
                         </div>
                     </div>

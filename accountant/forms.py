@@ -20,7 +20,7 @@ class AddContractForm(forms.ModelForm):
             "supplier": forms.Select(attrs={'class': 'form-control'}),
             "invoice_amount": forms.TextInput(attrs={'class': 'form-control invoice'}),
             "balance_due": forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            "swift_code": forms.TextInput(attrs={'class': 'form-control'}),
+            "invoice_number": forms.TextInput(attrs={'class': 'form-control invoice_number'}),
             "balance": forms.TextInput(attrs={'class': 'form-control balance'}),
 
         }

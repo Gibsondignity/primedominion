@@ -20,13 +20,13 @@ class AddContractForm(forms.ModelForm):
     
         widgets = {
             "invoice_number": forms.TextInput(attrs={'class': 'form-control'}),
-            "start_date": forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),
-            "due_date": forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),
+            "start_date": forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            "due_date": forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             "supplier": forms.Select(attrs={'class': 'form-control'}),
             "invoice_amount": forms.TextInput(attrs={'class': 'form-control'}),
             "product_name": forms.TextInput(attrs={'class': 'form-control'}),
             "contract_terms": forms.Select(attrs={'class': 'form-control'}),
-            "account_officer": forms.TextInput(attrs={'class': 'form-control'}),
+            
         }
     
 

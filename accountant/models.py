@@ -23,7 +23,7 @@ class Accountant(models.Model):
     invoice_amount = models.DecimalField(max_digits=9, decimal_places=2)
     amount_paid = models.DecimalField(max_digits=9, decimal_places=2, null=True)
     supplier = models.ForeignKey(Supplier, on_delete=CASCADE, max_length=50, null=True)
-    swift_code = models.CharField(max_length=50, null=True, blank=True)
+    invoice_number = models.CharField(max_length=50)
     balance_due = models.DateField(default=timezone.now, blank=True)
     balance = models.DecimalField(max_digits=9, decimal_places=2, null=True, blank=True)
     

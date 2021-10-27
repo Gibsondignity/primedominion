@@ -77,7 +77,7 @@
                 {% csrf_token %}
                 <h3>Search Below</h3>
                 <div class="input-group mb-3">
-                    <input class="form-control form-control-lg" name="data" type="text" placeholder="Eg. Ezekiel Mensah" aria-label="default input example">
+                    <input class="form-control form-control-lg" name="data" type="text" placeholder="Search By: Invoice Number, Invoice Amount, and Amount Paid" aria-label="default input example">
                 </div>
                 <button class="btn btn-primary">Search</button>
             </form>
@@ -98,7 +98,7 @@
                                 <th scope="col">Amount Paid</th>
                                 <th scope="col">Invoice Amount</th>
                                 <th scope="col">Balace Due</th>
-                                <th scope="col">Swift Code</th>
+                                <th scope="col">Swift Invoice</th>
                                 <th scope="col">Balance</th>
                             </tr>
 
@@ -109,7 +109,7 @@
                                     <td class="amount">{{transact.amount_paid}}</td>
                                     <td>{{transact.invoice_amount}}</td>
                                     <td>{{transact.balance_due}}</td>
-                                    <td>{{transact.swift_code}}</td>
+                                    <td>{{transact.invoice_number}}</td>
                                     <td>{{transact.balance}}</td>
                                     <td><a class="btn btn-sm btn-info" href="{% url 'update_payment' transact.pk %}">Update</a></td>
                                     

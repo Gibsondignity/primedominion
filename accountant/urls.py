@@ -24,7 +24,7 @@ urlpatterns = [
     # path('transactions', views.transactions, name='transactions'),
     path('accountant/accountantLogout', views.accountantLogout, name='accountantLogout'),
     
-    path('home/transact_for_supplier/<int:pk>/', views.transact_for_supplier, name='transact_for_supplier'),
+    path('accountant/home/transact_for_supplier/<int:pk>/', views.transact_for_supplier, name='transact_for_supplier'),
     #  path('index/update_contract/<int:pk>/', views.update_contract, name='update_contract'),
 
 

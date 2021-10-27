@@ -103,13 +103,13 @@
 
                             <div class="row">
                                 <button type="button" class="btn btn-primary col">
-                                    <span class="spinner-grow-sm"></span><a href="{% url 'delete_supplier' supplier.pk %}" class="link-light">Delete Supplier</a>
+                                    <span class="spinner-grow-sm"></span><a href="{% url 'delete_supplier' supplier.pk %}" class="link-light text-light">Delete Supplier</a>
                                 </button>
                             
 
                             
                                 <button type="button" class="btn btn-primary col">
-                                    <span class="spinner-grow-sm"></span><a href="{% url 'update_supplier' supplier.pk %}" class="link-light">Update Supplier</a>
+                                    <span class="spinner-grow-sm"></span><a href="{% url 'update_supplier' supplier.pk %}" class="link-light text-light">Update Supplier</a>
                                 </button>
                             </div>
 
@@ -130,7 +130,6 @@
                         <th>Knvoice Amount</th>
                         <th>Product Name</th>
                         <th>Contract Terms</th>
-                        <th>Account Officer </th>
                         <th colspan="2">Action</th>
             
                     </tr>
@@ -146,9 +145,8 @@
                         <td>{{contract.invoice_amount}}</td>
                         <td>{{contract.product_name}}</td>
                         <td>{{contract.contract_terms}}</td>
-                        <td>{{contract.account_officer}}</td>
                         
-                        <td><a class="btn btn-sm btn-success" href="#">Update</a></td>
+                        <td><a class="btn btn-sm btn-success" href="">Update</a></td>
                         <td><a class="btn btn-sm btn-danger" href="#">Delete</a></td>
                     </tr>
                 {% endfor %}
